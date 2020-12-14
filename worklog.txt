@@ -1,0 +1,12 @@
+Dec 11, 2020. Project aangemaakt. 
+
+App 'vault' toegevoegd, als demo functionaliteit voor Datavault structuur. 
+Daarbinnen models.py opgezet voor hoofdstructuren.
+
+Dec 14, 2020
+- superuser uamc toegevoegd, met ww 'uamc' 
+- URLs geconfigureerd
+
+TODO: 
+remote toevoegen aan GIT. 
+
