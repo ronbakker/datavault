@@ -6,7 +6,16 @@ Daarbinnen models.py opgezet voor hoofdstructuren.
 Dec 14, 2020
 - superuser uamc toegevoegd, met ww 'uamc' 
 - URLs geconfigureerd
+- admin functies toegevoegd, voor authenticatie en authorisatie
+- model aangepast: relaties toegevoegd 
 
 TODO: 
 remote toevoegen aan GIT. 
+
+Dec 23, 2020
+- app toegevoegd voor bedrijfswoordenboek: glossary
+- begin gemaakt met opzet van een glossary model, met documentatie van Ronald Bark (zie SharePoint)
+- url afhandeling aangepast, zodat de sites los van elkaar te benaderen zijn, op /glossary en /datavault, resp.
+- versie toegevoegd aan Git
+
 

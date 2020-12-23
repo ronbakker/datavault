@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from glossary.admin import glossary_admin
 from vault.admin import datavault_admin
 
 urlpatterns = [
     path('admin/', admin.site.urls)
-    , path('',datavault_admin.urls)
+    , path('datavault',datavault_admin.urls)
+    , path('glossary',glossary_admin.urls)
 ]

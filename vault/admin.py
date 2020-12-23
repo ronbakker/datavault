@@ -7,35 +7,66 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext_lazy
 
 from project.models import Project
-from vault.models import Hub, Link, HierarchicalLink, NonHistorisedLink, SameAsLink, Satellite 
-
-# Register your models here.
+from vault.models import * # Hub, Link, HierarchicalLink, NonHistorisedLink, SameAsLink, Satellite 
 
 class DataVaultSite(AdminSite): 
     site_header = gettext_lazy("AUMC - ASB - Datavault")
 
+#de admin-site voor het project 
+datavault_admin = DataVaultSite(name="DataVault")
+
+@admin.register(Project, site=datavault_admin)
 class ProjectAdmin(admin.ModelAdmin): 
     list_display = ("naam",) 
 
+@admin.register(HubAttribute, site=datavault_admin)
+class HubAttributeAdmin(admin.ModelAdmin): 
+    list_display = ("naam","data_type","hub",'isSequence', )
+    list_filter = ("hub",'isSequence','data_type', )
+
+@admin.register(Hub, site=datavault_admin)
 class HubAdmin(admin.ModelAdmin): 
-    list_display = ("naam","get_projects", )
+    list_display = ("naam", "isStubHub", "get_projects", )
+    list_filter = ('isStubHub', 'projects', )
     search_fields = ("naam",) 
+    inlines = [
+        HubAttributeInline, 
+        SatelliteInline, 
+    ]
+    fieldsets = (
+        ("Hub kenmerken", {"fields": ( ("naam", "isStubHub" ), )  } ),
+        ("Extra informatie", { 'classes': ['collapse'], "fields":  ( "omschrijving", "toelichting",) } ),
+    )    
 
+@admin.register(Link, site=datavault_admin)
 class LinkAdmin(admin.ModelAdmin): 
-    list_display = ("naam","get_hubs",) 
+    list_display = ("naam","get_hubs","links") 
+    inlines = [
+        LinkAttributeInline, 
+        SatelliteInline, 
+    ]
 
+""" @admin.register(HierarchicalLink, site=datavault_admin)
 class HierarchicalLinkAdmin(admin.ModelAdmin): 
     list_display = ("naam",) 
 
+@admin.register(SameAsLink, site=datavault_admin)
 class SameAsLinkAdmin(admin.ModelAdmin): 
     list_display = ("naam",) 
 
+@admin.register(NonHistorisedLink, site=datavault_admin)
 class NonHistorisedLinkAdmin(admin.ModelAdmin):     
     list_display = ("naam",) 
-
+ """
+@admin.register(Satellite, site=datavault_admin)
 class SatelliteAdmin(admin.ModelAdmin): 
-    list_display = ("naam",) 
+    list_display = ("naam", "subtype", "hub", "link", ) 
+    list_filter = ("subtype", "hub", "link",)
+    inlines = [
+        SatAttributeInline
+    ]
 
+@admin.register(LogEntry, site=datavault_admin)
 class LogEntryAdmin(admin.ModelAdmin):
     # to have a date-based drilldown navigation in the admin page
     date_hierarchy = 'action_time'
@@ -60,28 +91,5 @@ class LogEntryAdmin(admin.ModelAdmin):
         'action_flag',
     ]
 
-#de admin-site voor het project 
-datavault_admin = DataVaultSite(name="DataVault")
-
-# authorisatie en gebruikers
-datavault_admin.register(Group, GroupAdmin)
-datavault_admin.register(User, UserAdmin)
-
-# logging van activiteiten per gebruikersgroep
-datavault_admin.register(LogEntry,LogEntryAdmin)
-
-# configuratie van de projecten
-datavault_admin.register(Project,ProjectAdmin)
-# configuratie van de Datavault-app, vooral de <Model>s
-@admin.register(Hub, Link, NonHistorisedLinkAdmin, HierarchicalLink, SameAsLinkAdmin, site=datavault_admin)
-
-""" 
-datavault_admin.register(Hub,HubAdmin)
-datavault_admin.register(Link, LinkAdmin)
-datavault_admin.register(NonHistorisedLink, NonHistorisedLinkAdmin)
-datavault_admin.register(HierarchicalLink, HierarchicalLinkAdmin)
-datavault_admin.register(SameAsLink, SameAsLinkAdmin)
-datavault_admin.register(Satellite, SatelliteAdmin)
-
-"""
-
+datavault_admin.register(Group, GroupAdmin) 
+datavault_admin.register(User, UserAdmin) 
