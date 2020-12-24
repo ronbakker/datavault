@@ -18,4 +18,10 @@ Dec 23, 2020
 - url afhandeling aangepast, zodat de sites los van elkaar te benaderen zijn, op /glossary en /datavault, resp.
 - versie toegevoegd aan Git
 
-
+Dec 24, 2020
+- virtual environment toegevoegd, op basis van Python 3.9.1. De naam is 'django'. 
+- deze activeren dmv 'workon django'
+- VE bevat nieuwe(re) versies van django en andere pakketten
+- de afhankelijkheden zijn op te vragen met: pip freeze 
+- nu zijn ze weggeschreven met: pip freeze >requirements.text 
+- requirements.txt toegevoegd aan Git

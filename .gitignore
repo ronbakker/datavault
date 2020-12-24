@@ -1,4 +1,7 @@
 **/__pycache__/
 **/fixtures/
 **/migrations/
-
+**/import/
+**/static/
+**/logs/
+db.sqlite3

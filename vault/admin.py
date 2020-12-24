@@ -10,7 +10,7 @@ from project.models import Project
 from vault.models import * # Hub, Link, HierarchicalLink, NonHistorisedLink, SameAsLink, Satellite 
 
 class DataVaultSite(AdminSite): 
-    site_header = gettext_lazy("AUMC - ASB - Datavault")
+    site_header = gettext_lazy("Architectuur, Security en Beleid <Beheer Site>")
 
 #de admin-site voor het project 
 datavault_admin = DataVaultSite(name="DataVault")

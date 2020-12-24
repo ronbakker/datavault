@@ -18,8 +18,11 @@ from django.urls import path
 from glossary.admin import glossary_admin
 from vault.admin import datavault_admin
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
-    path('admin/', admin.site.urls)
-    , path('datavault',datavault_admin.urls)
-    , path('glossary',glossary_admin.urls)
-]
+    path('admin/', admin.site.urls) 
+    , path('datavault/',datavault_admin.urls)
+    , path('glossary/',glossary_admin.urls)
+] + static(settings.STATIC_ROOT, document_root=settings.BASE_DIR)
