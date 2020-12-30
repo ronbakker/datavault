@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
+    <title>{% block title %} {{ page_title | default:"Titelloze pagina" }} {% endblock title %}</title>
+    <style>
+        body {
+            background-color: white;
+        }
+        header { 
+            padding: 1em;
+            background-color: white;
+            clear: left;
+            text-align: center;
+        }
+        h1 {
+            color: white;
+        }
+
+        p {
+            color: blue;
+        }
+
+        footer {
+            padding: 1em;
+            color: white;
+            background-color: blue;
+            clear: left;
+            text-align: center;
+        }
+
+        nav {
+            margin: 0;
+            padding: 1em;
+            color: blue;
+            background-color: lightblue;
+            clear: left;
+            text-align: left;
+        }
+
+        ul.nav {
+            display: flex;
+            list-style: none;
+        }
+
+        li.nav {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .row1 {
+            background: #fff;
+        }
+
+        .row2 {
+            background: #f9f9f9;
+        }
+
+        thead th {
+            padding: 5px 10px;
+            line-height: normal;
+            text-transform: uppercase;
+            background: #f6f6f6;
+        }
+
+        table.beheer {
+            padding-top: 4mm;
+            padding-bottom: 4mm;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            color: blue;
+            border-collapse: collapse;
+            padding-left: 4mm;
+            padding-right: 4mm;
+        }
+
+        td.warning {
+            color: red
+        }
+
+        li a {
+            color: green
+        }
+        div.header { 
+            width:100%; 
+            border: 1px solid black;
+            padding-bottom: 1em;
+            padding-top: 2mm;
+            background-color: red
+        }
+        div.analyse {
+            padding-bottom: 1em;
+            padding-top: 2mm;
+            background-color: whitesmoke
+        }
+
+        div.report-section {
+            padding-bottom: 1em;
+            padding-top: 2mm;
+            background-color: lightskyblue;
+        }
+
+        div.beheer {
+            padding-top: 4mm;
+            padding-left: 1em;
+            padding-bottom: 2mm;
+            background-color: whitesmoke
+        }
+
+        div.beheer-details {
+            padding-top: 4mm;
+            padding-left: 2em;
+            padding-bottom: 2mm;
+            background-color: whitesmoke
+        }
+
+        caption {
+            display: table-caption;
+            caption-side: top;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header>" > 
+        {% block header %}
+        {{ header|default:'Header is niet gezet...'}}
+        {% endblock header%}
+    </div> 
+        <div class="container-fluid">
+            <div class="navigation">
+            {% block navigation %}
+            {% endblock %}
+        </div>
+        <div class="contents">
+            {% block content %}
+            <p>Placeholder tekst in basis template. Vervang met contentsblock</p>
+            {% endblock content %}
+        </div>
+    </div>
+</body>
+</html>
