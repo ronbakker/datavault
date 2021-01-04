@@ -13,16 +13,27 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
-from glossary.admin import glossary_admin
-from vault.admin import datavault_admin
-
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
 
+""" import from the overal project web site """
+from .views import ASBHome, LogoView, HomeView
+
+""" imports from the diffent apps """
+from glossary.views import GlossaryHome, TermenRapport, TermDetails
+
+from glossary.admin import glossary_admin 
+from vault.admin import datavault_admin
+
+app_name = "project"
 urlpatterns = [
-    path('admin/', admin.site.urls) 
-    , path('datavault/',datavault_admin.urls)
-    , path('glossary/',glossary_admin.urls)
+    path("asb",ASBHome.as_view(),name="asb_home")
+    , path('home',HomeView.as_view())
+    , path('logo',LogoView.as_view(), name="logo")
+    , path('glossary/', include('glossary.urls'))
+    , path('datavault/',include('vault.urls'))
+    , path('gl_admin', glossary_admin.urls)
+    , path('dv_admin', datavault_admin.urls)
 ] + static(settings.STATIC_ROOT, document_root=settings.BASE_DIR)

@@ -1,0 +1,14 @@
+{% extends "aumc_base_report.html" %}
+{% block title %}
+    {{block.super }}
+    A,S,B - Beheer bedrijfswoordenboek
+{% endblock title %}
+{% block header %}
+    {{ block.super }} 
+    <a href="{% url 'glossary:glossary_home' %}">Beheer bedrijfswoordenboek</a>
+{% endblock header %}
+{% block report_contents %}
+    De inhoud van deze pagina is nog niet gedefinieerd! <hr/>
+    Vul het report_contents blok! <hr/>
+{% endblock report_contents %}
+

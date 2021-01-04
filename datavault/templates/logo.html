@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+</head>
+<body>
+    <div class="container-fluid">
+        <header>
+            {% block header %}
+            <img src="http://localhost:8080/logo_aumc.svg" />            
+            {% endblock header%}
+        </header>
+        {% block navigation %}
+        {% endblock %}
+        <div class="contents">
+            {% block content %}
+            <p>Placeholder tekst in basis template. Vervang met contentsblock</p>
+            {% endblock content %}
+        </div>
+    </div>
+</body>
+
+</html>

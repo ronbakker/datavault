@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 #from django.core.files.storage import FileSystemStorage
 from django.db import models
@@ -7,18 +8,12 @@ from django.http import (FileResponse, HttpResponse, HttpResponseNotFound,
                          HttpResponseRedirect)
 from django.shortcuts import render
 from django.views.generic import DetailView, FormView, ListView, TemplateView
-from reportlab.pdfgen import canvas
 
-from .models import Hub, Link 
-class DatavaultHome(LoginRequiredMixin, TemplateView):
-    template_name = 'vault/datavault_index.html'
+class ASBHome(LoginRequiredMixin, TemplateView):
+    template_name = 'index.html'
 
-class HubsView(ListView): 
-    model = Hub
-    template_name = 'vault/hub/hub_list.html'
-    context_object_name = 'hubs'
+class LogoView(TemplateView):
+    template_name = "logo.html"
 
-class LinksView(ListView): 
-    template_name = 'vault/link_list.html'
-    model = Link 
-    context_object_name = 'links'
+class HomeView(TemplateView):
+    template_name = "home.html"

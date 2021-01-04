@@ -16,7 +16,7 @@ from glossary.models import Context, Domein, SubDomein, Term, TermType
 
 def actionImporteerSatellieten(self, request, queryset): 
     """ 
-        leest een Excel sheet met specificaties van tabellen die getruncate moeten worden 
+        leest een Excel sheet met specificaties
     """
     filename = os.path.join(IMPORT_CONFIG["import"],IMPORT_CONFIG["context"]) 
     LOGGER.debug("import gestart vanuit: %s", filename)
@@ -50,9 +50,6 @@ def actionImporteerSatellieten(self, request, queryset):
 actionImporteerSatellieten.short_description = "importeer satellieten vanuit Excel"
 
 def actionImporteerBegrippenlijst(self, request, queryset): 
-    """ 
-        leest een Excel sheet met specificaties van tabellen die getruncate moeten worden 
-    """
     filename = os.path.join(IMPORT_CONFIG["import"],IMPORT_CONFIG["context"]) 
     LOGGER.debug("import gestart vanuit: %s", filename)
     wb = load_workbook(filename)

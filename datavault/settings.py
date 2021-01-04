@@ -124,7 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_ROOT = '/Users/ron/dev/uamc/www/'
-STATIC_URL  = '/Users/ron/dev/uamc/www/'
+STATIC_URL  = 'http://localhost:8080/'
 STATIC_FILES_DIRS = [
     os.path.join(BASE_DIR,'static')
     , os.path.join(BASE_DIR,'static','www')

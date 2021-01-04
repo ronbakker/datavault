@@ -16,6 +16,12 @@
         body {
             background-color: white;
         }
+        #logo { 
+            width:100%; 
+            margin:0; 
+            padding:0; 
+            background-color:white;
+        }
         header { 
             padding: 1em;
             background-color: white;
@@ -96,13 +102,6 @@
         li a {
             color: green
         }
-        div.header { 
-            width:100%; 
-            border: 1px solid black;
-            padding-bottom: 1em;
-            padding-top: 2mm;
-            background-color: red
-        }
         div.analyse {
             padding-bottom: 1em;
             padding-top: 2mm;
@@ -138,21 +137,20 @@
 </head>
 
 <body>
-    <div class="header>" > 
+    <div id="logo>" > 
         {% block header %}
-        {{ header|default:'Header is niet gezet...'}}
+        {% load static %}    
+        <img src="{% static 'logo_aumc.svg' %}" width="400" align="left"/>    
         {% endblock header%}
     </div> 
-        <div class="container-fluid">
-            <div class="navigation">
-            {% block navigation %}
-            {% endblock %}
-        </div>
-        <div class="contents">
-            {% block content %}
-            <p>Placeholder tekst in basis template. Vervang met contentsblock</p>
-            {% endblock content %}
-        </div>
+    <div class="navigation">
+        {% block navigation %}
+        {% endblock %}
+    </div>
+    <div class="contents">
+        {% block content %}
+        <p>Placeholder tekst in basis template. Vervang met contentsblock</p>
+        {% endblock content %}
     </div>
 </body>
 </html>

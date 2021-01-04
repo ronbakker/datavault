@@ -1,0 +1,17 @@
+{% extends "glossary/glossary_page.html" %}
+{% block header %}{{ block.super}}Gebruik van termen{% endblock header %}
+{% block table_of_contents %}
+    <div id="toc">
+        <a name="top"></a>
+        <ul>
+            {% for term in termen %}
+            <li><a href="{% url 'glossary:term_detail' term.pk %}">{{ forloop.counter}}:&nbsp;{{term.naam}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock table_of_contents %}
+{% block report_contents}
+    {% for term in termen %}
+        <h3>term.naam</h3>
+    {% endfor %}
+{% endblock report_contents}
