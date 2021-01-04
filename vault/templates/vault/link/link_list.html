@@ -1,0 +1,18 @@
+{% extends "vault/datavault_page.html" %}
+{% block header %}{{ block.super}}Gebruik van Links{% endblock header %}
+{% block table_of_contents %}
+    <div id="toc">
+        <a name="top"></a>
+        <ul>
+            {% for link in links %}
+            <!-- <li><a href="{% url 'datavault:hub_detail' term.pk %}">{{ forloop.counter}}:&nbsp;{{term.naam}}</a></li> -->
+            <li>{{ forloop.counter}}:&nbsp;{{link.naam}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock table_of_contents %}
+{% block report_contents}
+    {% for item in links %}
+        <h3>item.naam</h3>
+    {% endfor %}
+{% endblock report_contents}
