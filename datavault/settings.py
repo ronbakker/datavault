@@ -27,7 +27,7 @@ SECRET_KEY = '%%=m^zgl4v1*b(ezq=x7$hmgeusl--!hh%&-pl4*3)(*in8!vy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost','aumc','asb-beheer']
 
 # Application definition
 
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vault.apps.DataVault', 
     'project.apps.Project', 
-    'glossary.apps.Glossary'
+    'glossary.apps.Glossary', 
+    'gebruikers.apps.Gebruikers'
 ]
 
 MIDDLEWARE = [
@@ -60,6 +61,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'datavault','templates') # verwijst naar de templates voor het project... 
+            , os.path.join(BASE_DIR, 'glossary','templates')
+            , os.path.join(BASE_DIR, 'vault','templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {

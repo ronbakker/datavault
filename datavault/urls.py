@@ -29,9 +29,8 @@ from vault.admin import datavault_admin
 
 app_name = "project"
 urlpatterns = [
-    path("asb",ASBHome.as_view(),name="asb_home")
+    path("",ASBHome.as_view(),name="asb_home")
     , path('home',HomeView.as_view())
-    , path('logo',LogoView.as_view(), name="logo")
     , path('glossary/', include('glossary.urls'))
     , path('datavault/',include('vault.urls'))
     , path('gl_admin', glossary_admin.urls)

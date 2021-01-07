@@ -25,3 +25,22 @@ Dec 24, 2020
 - de afhankelijkheden zijn op te vragen met: pip freeze 
 - nu zijn ze weggeschreven met: pip freeze >requirements.text 
 - requirements.txt toegevoegd aan Git
+
+Jan 4, 2021
+- wijzigingen doorgevoerd aan overerving van standaard pagina's (NIET de admin pagina's). Platter gemaakt, de root is nu: <base.html>
+- logo toegevoegd: SVG-bestand toegevoegd 
+- afhandeling van static files gewijzigd. NGINX als server geinstalleerd en beschikbaar gemaakt. 
+- NGINX geconfigureerd, om static files te serveren vanuit: (zie settings.py)
+- LET OP! NGINX moet draaien, anders worden de static files niet geladen en getoond! (Dus ook de stylesheets niet...)
+- nginx locatie: /usr/local/etc/nginx
+- nginx herstarten: nginx -s reload 
+- Starten van nginx: vanuit een terminal window 'nginx' tikken. Zo simpel is het... 
+- test op configuratie: http://localhost:8080/logo_aumc.svg. Dat moet een logo teruggeven. 
+
+Jan 6, 2021
+- access log toegevoegd voor nginx: access.log 
+-    locatie: /Users/ron/dev/logs
+- om te zien welke statische files worden geladen
+
+Jan 7, 2021
+- code geoptimaliseerd, zodat sneller wordt geimporteerd

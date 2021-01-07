@@ -1,7 +1,7 @@
-{% extends "glossary/glossary_page.html" %}
-{% block header %}{{ block.super}}Gebruik van termen{% endblock header %}
+{% extends "base.html" %}
 {% block table_of_contents %}
     <div id="toc">
+        <h2>Gebruik van termen</h2>
         <a name="top"></a>
         <ul>
             {% for term in termen %}
@@ -9,9 +9,5 @@
             {% endfor %}
         </ul>
     </div>
-{% endblock table_of_contents %}
-{% block report_contents}
-    {% for term in termen %}
-        <h3>term.naam</h3>
-    {% endfor %}
-{% endblock report_contents}
+{% endblock%}
+

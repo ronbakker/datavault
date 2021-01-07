@@ -1,21 +1,4 @@
-{% extends "glossary/glossary_page.html" %}
-<div class="report-section">
-    <h4>
-        <a name="{{ term.pk }}"></a><a href="#top">terug naar top</a>
-        Maskeerbare kolommen van tabel: {{ tabel.naam|upper}} in schema {{ tabel.schema.naam.upper }} van
-        {{tabel.schema.systeem.naam.upper }}
-    </h4>
-    <div class="beheer">
-        <table>
-            <caption>Term:{{ term.naam|lower}}</caption>
-            <!--    
-            {% for kolom in term.kolom_set.all %}
-            <tr class="{% cycle 'row1' 'row2' %}">
-                <td>{{ forloop.counter }}</td>
-                {% include "../kolom/kolom_detail.html" with show_koppeling=1 %}
-            </tr>
-            {% endfor %}
-        -->
-        </table>
-    </div>
-</div>
+{% extends "base.html" %}
+{% block content %}
+<h4>{{ term.pk }} {{ term.naam|lower}}</h4>
+{% endblock %}

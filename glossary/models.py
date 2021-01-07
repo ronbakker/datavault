@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import Group, User
 from django.utils.translation import gettext_lazy as _
 
 class Domein (models.Model): 
@@ -7,16 +8,18 @@ class Domein (models.Model):
     def __str__(self):
         return self.naam
     class Meta: 
+        ordering = ('naam', )
         verbose_name_plural = "domeinen"
 
 
 class SubDomein(models.Model): 
     naam = models.CharField(max_length=60)
-    domein = models.ForeignKey(Domein, on_delete=models.DO_NOTHING, null=True)
+    domein = models.ForeignKey(Domein, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.naam
     class Meta: 
+        ordering = ('naam', )
         verbose_name_plural = "subdomeinen"
 
 class Context(models.Model): 
@@ -50,11 +53,12 @@ class Term(models.Model):
     toelichting = models.TextField(blank=True, null=True)
 
     # relaties 
-    context   = models.ForeignKey("Context", on_delete=models.DO_NOTHING, blank=True, null=True)
-    domein    = models.ForeignKey("Domein", on_delete=models.DO_NOTHING, blank=True, null=True)
-    termType  = models.ForeignKey("TermType", on_delete=models.DO_NOTHING, blank=True, null=True) 
-    domein    = models.ForeignKey("Domein", on_delete=models.DO_NOTHING, blank=True, null=True)
-    subdomein = models.ForeignKey("SubDomein", on_delete=models.DO_NOTHING, blank=True, null=True) 
+    context   = models.ForeignKey("Context", on_delete=models.SET_NULL, blank=True, null=True)
+    termType  = models.ForeignKey("TermType", on_delete=models.SET_NULL, blank=True, null=True) 
+    domein    = models.ForeignKey("Domein", on_delete=models.SET_NULL, blank=True, null=True)
+    subdomein = models.ForeignKey("SubDomein", on_delete=models.SET_NULL, blank=True, null=True) 
+    contactpersonen = models.ManyToManyField(User, blank=True)
+    rol       = models.ForeignKey(Group,on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.naam

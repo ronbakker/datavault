@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Datavault satellieten</h2>
+    <a name="top"></a>
+    <ul>
+        {% for sat in objects %}
+        <li><a href="{% url 'datavault:satellite_details' sat.pk %}">{{ forloop.counter}}:&nbsp;{{sat.naam}}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock%}
