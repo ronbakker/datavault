@@ -7,3 +7,4 @@
 db.sqlite3
 **/__init__.py
 .DS_Store
+*.PDF

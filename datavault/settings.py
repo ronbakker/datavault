@@ -188,7 +188,12 @@ LOGGING = {
 
 LOGGER = logging.getLogger("DM-beheer")
 
+ASB_CONFIG = { 
+    "DATA_DIR": os.path.join(BASE_DIR,'import'),
+    'REPORT_DIR': os.path.join(BASE_DIR,'PDFs'), 
+    "SCRIPT_DIR": os.path.join(BASE_DIR,'scripts')
+}
+
 IMPORT_CONFIG = {
-    "import": os.path.join(BASE_DIR, "import"),
-    "context" : "Begrippenlijst Amsterdam UMC.xlsx" 
+    "begrippenlijst" : "Begrippenlijst Amsterdam UMC.xlsx" 
 }

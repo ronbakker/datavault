@@ -2,9 +2,16 @@ from django.db import models
 from django.contrib.auth.models import Group, User
 from django.utils.translation import gettext_lazy as _
 
+class Gebruiker(User): 
+    manager = models.Manager() 
+
+class GebruikersGroep(Group): 
+    manager = models.Manager() 
+
 class Domein (models.Model): 
     naam = models.CharField(max_length=60)
 
+    manager = models.Manager()
     def __str__(self):
         return self.naam
     class Meta: 
@@ -16,6 +23,8 @@ class SubDomein(models.Model):
     naam = models.CharField(max_length=60)
     domein = models.ForeignKey(Domein, on_delete=models.CASCADE, null=True)
 
+    manager = models.Manager()
+    
     def __str__(self):
         return self.naam
     class Meta: 
@@ -24,6 +33,8 @@ class SubDomein(models.Model):
 
 class Context(models.Model): 
     naam = models.CharField(max_length=60)
+    
+    manager = models.Manager()    
 
     def __str__(self):
         return self.naam
@@ -36,10 +47,13 @@ class Context(models.Model):
 class TermType(models.Model): 
     naam = models.CharField(max_length=20,primary_key=True)
 
+    manager = models.Manager()
+
     def __str__(self): 
         return self.naam 
 
 class Term(models.Model): 
+
     class TermType(models.TextChoices):
         BEGRIP = 'BEGRIP', _('Begrip')
         DEFINITIE  = 'DEFINITIE', _('DEFINITIE')
@@ -51,6 +65,8 @@ class Term(models.Model):
     eenheid = models.CharField(max_length=50, blank=True, null=True)
     definitie = models.TextField(blank=True, null=True)
     toelichting = models.TextField(blank=True, null=True)
+
+    manager = models.Manager()
 
     # relaties 
     context   = models.ForeignKey("Context", on_delete=models.SET_NULL, blank=True, null=True)

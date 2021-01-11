@@ -1,39 +1,42 @@
 import logging
 import os
 
-from datavault.settings import IMPORT_CONFIG, LOGGER
+from datavault.settings import ASB_CONFIG, IMPORT_CONFIG, LOGGER
 from django.contrib import admin, messages
 from django.contrib.admin import AdminSite
 from django.contrib.admin.models import ADDITION, CHANGE, LogEntry
 from django.contrib.auth.admin import GroupAdmin, UserAdmin
-from django.contrib.auth.models import Group, User
 from django.contrib.contenttypes.models import ContentType
 from django.http import (FileResponse, HttpResponse, HttpResponseNotFound,
                          HttpResponseRedirect)
 from django.utils.translation import gettext_lazy
 from gebruikers.models import GebruikersRol
 from openpyxl import load_workbook
-from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
-from reportlab.lib.units import inch
-from reportlab.pdfgen import canvas
-from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
-from reportlab.platypus.tableofcontents import TableOfContents
-from reportlab.rl_config import defaultPageSize
 
-from glossary.models import Context, Domein, SubDomein, Term, TermType
+# from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+# from reportlab.lib.units import inch
+# from reportlab.pdfgen import canvas
+# from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
+# from reportlab.platypus.tableofcontents import TableOfContents
+# from reportlab.rl_config import defaultPageSize
+
+from glossary.models import Context, Domein, Gebruiker, GebruikersGroep, SubDomein, Term, TermType
+
+# from .PDF_rapport import RapportTemplate
 
 DEFAULT_PASSWORD = "amsterdamumc"
 MAIL_DOMAIN = "@amsterdamumc.nl"
 
 # initialise reportlab (for PDF generation)
-PAGE_HEIGHT = defaultPageSize[1]
-PAGE_WIDTH = defaultPageSize[0]
-styles = getSampleStyleSheet()
+# PAGE_HEIGHT = defaultPageSize[1]
+# PAGE_WIDTH = defaultPageSize[0]
+# styles = getSampleStyleSheet()
 
-pil_logger = logging.getLogger('PIL')
-pil_logger.setLevel(logging.INFO)
+# pil_logger = logging.getLogger('PIL')
+# pil_logger.setLevel(logging.INFO)
 
 from django.core.exceptions import ObjectDoesNotExist
+
 
 def email(contact):
     if contact is None or len(contact) == 0: 
@@ -44,9 +47,9 @@ def email(contact):
 def updateUser(contact, rol):
     username = contact.strip().replace(" ","") .lower() # geen spaties in een username! 
     try:
-        user = User.objects.get(username=username)
+        user = Gebruiker.manager.get(username=username)
     except ObjectDoesNotExist:
-        user = create_user(username,email(contact).lower(),DEFAULT_PASSWORD)
+        user = Gebruiker.manager.create_user(username,email(contact).lower(),DEFAULT_PASSWORD)
         user.first_name = contact.split()[0]
         user.last_name  = " ".join(contact.split()[1:]) 
         user.is_staff   = True
@@ -55,15 +58,15 @@ def updateUser(contact, rol):
         user.save()     
 
 def actionImporteerBegrippenlijst(self, request, queryset): 
-    filename = os.path.join(IMPORT_CONFIG["import"],IMPORT_CONFIG["context"]) 
+    filename = os.path.join(ASB_CONFIG["DATA_DIR"],IMPORT_CONFIG["begrippenlijst"]) 
     LOGGER.debug("import gestart vanuit: %s", filename)
     wb = load_workbook(filename)
     # sheetname = wb.sheetnames[1] # de tweede tab
     sheet = wb.worksheets[0]
     # ophalen van default rollen... 
-    defaultrol, cr = Group.objects.get_or_create(name__iexact = "Contactpersoon")
+    defaultrol, cr = GebruikersGroep.manager.get_or_create(name__iexact = "Contactpersoon")
     assert(cr is False)
-    registrator,cr = Group.objects.get_or_create(name__iexact = "Beheerder begrippenlijst")
+    registrator,cr = GebruikersGroep.manager.get_or_create(name__iexact = "Beheerder begrippenlijst")
     for row in range(2, sheet.max_row):
         rol = None
         naam = sheet.cell(row=row,column=1).value
@@ -85,7 +88,7 @@ def actionImporteerBegrippenlijst(self, request, queryset):
         if gebruikersrol is not None: 
             gebruikersrol = gebruikersrol.strip() 
             if len(gebruikersrol) > 0: 
-                rol, _  = Group.objects.get_or_create(name__iexact = gebruikersrol)
+                rol, _  = GebruikersGroep.manager.get_or_create(name__iexact = gebruikersrol)
         beheerdersInfo = sheet.cell(row=row, column=15).value
         if beheerdersInfo is not None: 
             beheerdersInfo = beheerdersInfo.strip() 
@@ -102,15 +105,15 @@ def actionImporteerBegrippenlijst(self, request, queryset):
             if len(contact) > 0: 
                 updateUser(contact, defaultrol)
 
-        context, cr2 = Context.objects.get_or_create(naam__iexact = contextnaam)
-        termType, cr3 = TermType.objects.get_or_create(naam = typeterm)
+        context, _ = Context.manager.get_or_create(naam__iexact = contextnaam)
+        termType, _ = TermType.manager.get_or_create(naam = typeterm)
         if domeinnaam is not None and len(domeinnaam) > 0:        
-            domein, _ = Domein.objects.get_or_create(naam = domeinnaam)
+            domein, _ = Domein.manager.get_or_create(naam = domeinnaam)
             if subdomeinnaam is not None and len(subdomeinnaam) > 0: 
-                subdomein, _ = SubDomein.objects.get_or_create(naam = subdomeinnaam, domein = domein)
+                subdomein, _ = SubDomein.manager.get_or_create(naam = subdomeinnaam, domein = domein)
                 subdomein.domein = domein
                 subdomein.save()
-        term, _ = Term.objects.get_or_create(id = termid)
+        term, _ = Term.manager.get_or_create(id = termid)
         term.id = termid
         term.naam = naam
         term.eenheid = eenheid
@@ -147,15 +150,19 @@ class TermAdmin(admin.ModelAdmin):
     list_display = ("naam", "context", "domein", )
     list_filter = ("context", "domein", "rol", "contactpersonen", ) 
     search_fields = ("definitie", "toelichting",) 
+
     def actionGenereerPDF(self, request, query_set): 
-        file = "Begrippenlijst.PDF"
-        for term in query_set: 
-            print(term)
-        messages.add_message(request, messages.INFO,"PDF {} gegenereerd".format(file))            
-        return HttpResponseRedirect(request.META["HTTP_REFERER"])                 
+        # file = os.path.join(ASB_CONFIG["REPORT_DIR"],"Begrippenlijst.PDF") 
+        # doc = RapportTemplate(file)
+        # doc.termSectie(query_set)
+        # doc.multiBuild(doc.story)
+        # messages.add_message(
+        #     request, messages.INFO, "PDF {} gegenereerd".format(file)
+        # )
+        # LOGGER.debug("PDF {} gegenereerd".format(file))
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])        
         
     actions = [actionGenereerPDF]
-
     actionGenereerPDF.short_description = "Genereer PDF van geselecteerde Termen"
 
 @admin.register(Context, site=glossary_admin)
@@ -187,5 +194,5 @@ class LogEntryAdmin(admin.ModelAdmin):
         'action_flag',
     ]
 
-glossary_admin.register(Group, GroupAdmin) 
-glossary_admin.register(User, UserAdmin) 
+glossary_admin.register(GebruikersGroep, GroupAdmin) 
+glossary_admin.register(Gebruiker, UserAdmin) 
