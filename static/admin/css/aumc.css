@@ -1,0 +1,145 @@
+body {
+    background-color: white;
+}
+.container{
+    width: 80%;
+    margin: 0 auto; /* Center the DIV horizontally */
+}
+.fixed-header, .fixed-footer{
+    width: 100%;
+    position: fixed;        
+    padding: 10px 0;
+    color: #fff;
+}
+.fixed-header{
+    top: 0;
+    background: lightgray;
+}
+.fixed-footer{
+    bottom: 0;
+    background: lightgray;
+}    
+/* Some more styles to beutify this example */
+nav a{
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 25px;
+    display: inline-block;
+}
+#logo { 
+    width:100%; 
+    margin:0; 
+    padding:0; 
+    background-color:white;
+}
+header { 
+    padding: 1em;
+    background-color: white;
+    clear: left;
+    text-align: center;
+}
+h1 {
+    color: white;
+}
+
+p {
+    color: blue;
+}
+
+footer {
+    padding: 1em;
+    color: white;
+    background-color: blue;
+    clear: left;
+    text-align: center;
+}
+
+nav {
+    margin: 0;
+    padding: 1em;
+    color: blue;
+    background-color: lightblue;
+    clear: left;
+    text-align: left;
+}
+
+ul.nav {
+    display: flex;
+    list-style: none;
+}
+
+li.nav {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.row1 {
+    background: #fff;
+}
+
+.row2 {
+    background: #f9f9f9;
+}
+
+thead th {
+    padding: 5px 10px;
+    line-height: normal;
+    text-transform: uppercase;
+    background: #f6f6f6;
+}
+
+table.beheer {
+    padding-top: 4mm;
+    padding-bottom: 4mm;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    color: blue;
+    border-collapse: collapse;
+    padding-left: 4mm;
+    padding-right: 4mm;
+}
+
+td.warning {
+    color: red
+}
+
+li a {
+    color: green
+}
+div.analyse {
+    padding-bottom: 1em;
+    padding-top: 2mm;
+    background-color: whitesmoke
+}
+
+div.report-section {
+    padding-bottom: 1em;
+    padding-top: 2mm;
+    background-color: lightskyblue;
+}
+
+div.beheer {
+    padding-top: 4mm;
+    padding-left: 1em;
+    padding-bottom: 2mm;
+    background-color: whitesmoke
+}
+
+div.beheer-details {
+    padding-top: 4mm;
+    padding-left: 2em;
+    padding-bottom: 2mm;
+    background-color: whitesmoke
+}
+
+caption {
+    display: table-caption;
+    caption-side: top;
+    text-align: center;
+}
